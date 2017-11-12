@@ -124,6 +124,29 @@
     }
   };
 
+  // Updates a weather card with the latest weather forecast. If the card
+  // doesn't already exist, it's cloned from the template.
+  app.updateSymptomCard = function(data) {
+    var dataLastUpdated = new Date(data.created);
+    var symptom = data.description;
+
+    var card = app.visibleCards[data.id];
+    if (!card) {
+      card = app.symptomTemplate.cloneNode(true);
+      card.classList.remove('symptomTemplate');
+      card.removeAttribute('hidden');
+      app.container.appendChild(card);
+      app.visibleCards[data.key] = card;
+    }
+    
+    card.querySelector('.symptom .description').textContent = symptom + ' ?';
+    card.querySelector('.visual .icon').classList.add(data.id);
+    if (app.isLoading) {
+      app.spinner.setAttribute('hidden', true);
+      app.container.removeAttribute('hidden');
+      app.isLoading = false;
+    }
+  };
 
   /*****************************************************************************
    *
@@ -196,7 +219,9 @@
 
     // Fetch the latest data.
     var request = new XMLHttpRequest();
-    var params = {"acceptedSymptoms": "[]", "deniedSymptoms" : "[]"};
+    var params = {"acceptedSymptoms": "[" + JSON.stringify(app.acceptedSymptoms) + "]", 
+      "deniedSymptoms" : "[" + JSON.stringify(app.deniedSymptoms) + "]"
+    };
     request.setRequestHeader("Content-type", "application/json");
 
     request.onreadystatechange = function() {
@@ -204,26 +229,18 @@
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response.query.results;
-          results.key = key;
-          results.label = label;
+          // results.key = key;
+          // results.label = label;
           results.created = response.query.created;
-          app.updateInjuryCard(results);
+          app.updateSymptomCard(results);
         }
       } else {
         // Return the initial weather forecast since no data is available.
-        app.updateInjuryCard(initialInjury);
+        app.updateSymptomCard(initialSymptom);
       }
     };
-    request.open('GET', url, true);
-    request.send();
-  };
-
-  // Iterate all of the cards and attempt to get the latest forecast data
-  app.updateForecasts = function() {
-    var keys = Object.keys(app.visibleCards);
-    keys.forEach(function(key) {
-      app.getInjury(key);
-    });
+    request.open('POST', url, true);
+    request.send(params);
   };
 
   // TODO add saveselectedInjuries function here
@@ -247,8 +264,14 @@
       treatment: "Debe aplicar calor, hacer reposo deportivo y elongar suave sin dolor."
     }
   };
+
+  var initialSymptom = {
+    id: 4,
+    description: 'Sintomas agudos'
+  }
   // TODO uncomment line below to test app with fake data
   // app.updateInjuryCard(initialInjury);
+   app.updateSymptomCard(initialSymptom);
 
   /************************************************************************
    *
@@ -265,8 +288,8 @@
   app.selectedInjuries = localStorage.selectedInjuries;
   if (app.selectedInjuries) {
     app.selectedInjuries = JSON.parse(app.selectedInjuries);
-    app.selectedInjuries.forEach(function(city) {
-      app.getInjury(city.key, city.label);
+    app.selectedInjuries.forEach(function(injury) {
+      app.getInjury(injury.key, injury.label);
     });
   } else {
     /* The user is using the app for the first time, or the user has not

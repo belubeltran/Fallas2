@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-var dataCacheName = 'weatherData-v1';
-var cacheName = 'weatherPWA-step-8-1';
+var dataCacheName = 'diagnose-v1';
+var cacheName = 'diagnosePWA-step-final';
 var filesToCache = [
   '/',
   '/index.html',
@@ -60,7 +60,7 @@ self.addEventListener('activate', function(e) {
 
 self.addEventListener('fetch', function(e) {
   console.log('[Service Worker] Fetch', e.request.url);
-  var dataUrl = 'https://query.yahooapis.com/v1/public/yql';
+  var dataUrl = 'https://muscleinjurydiagnoser.herokuapp.com/injury/all';
   if (e.request.url.indexOf(dataUrl) > -1) {
     /*
      * When the request URL contains dataUrl, the app is asking for fresh
