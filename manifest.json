@@ -1,0 +1,8 @@
+{
+  "name": "Diagnose",
+  "short_name": "Diagnose",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#00796B"
+}
