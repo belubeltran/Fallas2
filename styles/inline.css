@@ -283,6 +283,13 @@ body {
   display: flex;
   padding-top: 20px; }
 
+.symptom-item .actions {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding-top: 20px; }
+
 .symptom-item .current .visual{
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
@@ -290,12 +297,6 @@ body {
           flex-grow: 0.2; 
           margin: auto 0;}
 .symptom-item .current .symptom{
-  -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 0.3;
-          margin: auto 0;}
-.symptom-item .current .actions{
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
@@ -313,11 +314,41 @@ body {
   height: 200px; 
   margin: 0 auto;}
 
+.symptom-item .symptoms {
+  list-style-type: none;
+  -webkit-padding-start: 10px;
+}
+
+.symptom-item .symptoms li img {
+  width: 20px;
+  padding-right: 5px;
+}
+
 .symptom-item .icon {
   background-repeat: no-repeat;
   background-size: contain; }
   .symptom-item .icon.sintomas_agudos {
     background-image: url("/images/sintomas_agudos.jpg"); }
+  .symptom-item .icon.inflamacion {
+    background-image: url("/images/inflamacion.jpg"); }
+  .symptom-item .icon.endurecimiento_medio_en_el_musculo {
+    background-image: url("/images/endurecimiento_medio_en_el_musculo.jpg"); }
+  .symptom-item .icon.golpe {
+    background-image: url("/images/golpe.jpg"); }
+  .symptom-item .icon.hematomas_de_mucha_intensidad {
+    background-image: url("/images/hematomas_de_mucha_intensidad.jpg"); }
+  .symptom-item .icon.hematomas_de_poca_intensidad {
+    background-image: url("/images/hematomas_de_poca_intensidad.jpg"); }
+  .symptom-item .icon.imposibilidad_de_terminar_actividad_fisica {
+    background-image: url("/images/imposibilidad_de_terminar_actividad_fisica.jpg"); }
+  .symptom-item .icon.mucho_endurecimiento_muscular {
+    background-image: url("/images/mucho_endurecimiento_muscular.jpg"); }
+  .symptom-item .icon.poco_endurecimiento_muscular {
+    background-image: url("/images/poco_endurecimiento_muscular.jpg"); }
+  .symptom-item .icon.sensacion_electrica {
+    background-image: url("/images/sensacion_electrica.jpg"); }
+  .symptom-item .icon.sintomas_progresivos {
+    background-image: url("/images/sintomas_progresivos.jpg"); }
 
 .injury-item .date, .injury-item .description {
   font-size: 1.25em; }

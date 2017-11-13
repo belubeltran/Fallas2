@@ -18,8 +18,10 @@
 
   var app = {
     isLoading: true,
+    diagnoseFound: false,
+    currentSymptom: {},
     visibleCards: {},
-    visibleSymptoms: {},
+    visibleSymptoms: null,
     selectedInjuries: [],
     acceptedSymptoms: [],
     deniedSymptoms: [],
@@ -39,7 +41,7 @@
 
   document.getElementById('butAdd').addEventListener('click', function() {
     // Refresh all of the forecasts
-    app.updateForecasts();
+    app.startDiagnose();
   });
 
   document.getElementById('butFind').addEventListener('click', function() {
@@ -67,12 +69,41 @@
     app.toggleAddDialog(false);
   });
 
+  app.acceptSymptom = function() {
+    app.acceptedSymptoms.push(app.currentSymptom);
+
+    var card = app.visibleSymptoms;
+    var child = document.createElement('li');
+    child.innerHTML = "<img src='/images/check.png' alt=''/>" + app.currentSymptom.description;
+    card.querySelector('.symptoms').appendChild(child);
+
+    app.getNextSymptom();
+  };
+
+  app.denySymptom = function() {
+    app.deniedSymptoms.push(app.currentSymptom);
+
+    var card = app.visibleSymptoms;
+    var child = document.createElement('li');
+    child.innerHTML = "<img src='/images/close.png' alt=''/>" + app.currentSymptom.description;
+    card.querySelector('.symptoms').appendChild(child);
+
+    app.getNextSymptom();
+  };
 
   /*****************************************************************************
    *
    * Methods to update/refresh the UI
    *
    ****************************************************************************/
+
+  app.startDiagnose = function() {
+    // Restart diagnose
+    app.acceptedSymptoms = [];
+    app.deniedSymptoms = [];
+
+    app.getNextSymptom();
+  };
 
   // Toggles the visibility of the add new city dialog.
   app.toggleAddDialog = function(visible) {
@@ -112,25 +143,39 @@
 
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
+  var x = 0;
   app.updateSymptomCard = function(data) {
-    var symptom = data.description;
+    app.diagnoseFound = data.diagnoseFound;
+    var nextSymptom = data.nextSymptom;
+    app.currentSymptom = nextSymptom;
 
-    var card = app.visibleSymptoms[data.id];
+    var card = app.visibleSymptoms;
     if (!card) {
       card = app.symptomTemplate.cloneNode(true);
       card.classList.remove('symptomTemplate');
       card.removeAttribute('hidden');
       app.container.appendChild(card);
-      app.visibleSymptoms[data.key] = card;
+      app.visibleSymptoms = card;
     }
     
-    card.querySelector('.symptom .description').textContent = symptom + ' ?';
-    var image = symptom.toLowerCase().replace(' ', '_');
+    card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
+    var image = nextSymptom.description .toLowerCase().replace(' ', '_');
     card.querySelector('.visual .icon').classList.add(image);
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
       app.isLoading = false;
+    }
+
+    if (!x) {
+      x++;
+      card.querySelector('#butAcceptSymptom').addEventListener('click', function() {
+        app.acceptSymptom();
+      });
+
+      card.querySelector('#butDenySymptom').addEventListener('click', function() {
+        app.denySymptom();
+      });
     }
   };
 
@@ -197,34 +242,34 @@
    * request goes through, then the card gets updated a second time with the
    * freshest data.
    */
-  app.getNextSymptom = function(key, label) {
+  app.getNextSymptom = function() {
     var url = 'https://muscleinjurydiagnoser.herokuapp.com/diagnose/nook';
     // TODO add cache logic here
 
     // Fetch the latest data.
     var request = new XMLHttpRequest();
-    var params = {"acceptedSymptoms": "[" + JSON.stringify(app.acceptedSymptoms) + "]", 
-      "deniedSymptoms" : "[" + JSON.stringify(app.deniedSymptoms) + "]"
+    var params = {acceptedSymptoms: app.acceptedSymptoms, 
+      deniedSymptoms: app.deniedSymptoms
     };
-    request.setRequestHeader("Content-type", "application/json");
+    console.log('belu params', JSON.stringify(params));
 
     request.onreadystatechange = function() {
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
-          var results = response.query.results;
-          // results.key = key;
-          // results.label = label;
-          results.created = response.query.created;
+          var results = response;
+          console.log('belu symptoms', results);
           app.updateSymptomCard(results);
+        } else {
+          // Return the initial weather forecast since no data is available.
+          app.updateSymptomCard(initialSymptom);
         }
-      } else {
-        // Return the initial weather forecast since no data is available.
-        app.updateSymptomCard(initialSymptom);
       }
     };
+
     request.open('POST', url, true);
-    request.send(params);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(params));
   };
 
   // TODO add saveselectedInjuries function here
