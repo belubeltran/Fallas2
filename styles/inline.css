@@ -287,22 +287,37 @@ body {
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-          flex-grow: 0.2; }
+          flex-grow: 0.2; 
+          margin: auto 0;}
 .symptom-item .current .symptom{
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-          flex-grow: 0.3; }
+          flex-grow: 0.3;
+          margin: auto 0;}
 .symptom-item .current .actions{
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-          flex-grow: 0.3; }
+          flex-grow: 0.3;
+          margin: auto 0;}
 .symptom-item .current .result{
   -webkit-box-flex: 1;
   -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
-          flex-grow: 0.1; }
+          flex-grow: 0.1;
+          margin: auto 0;}
+
+.symptom-item .current .icon {
+  width: 200px;
+  height: 200px; 
+  margin: 0 auto;}
+
+.symptom-item .icon {
+  background-repeat: no-repeat;
+  background-size: contain; }
+  .symptom-item .icon.sintomas_agudos {
+    background-image: url("/images/sintomas_agudos.jpg"); }
 
 .injury-item .date, .injury-item .description {
   font-size: 1.25em; }
@@ -329,35 +344,20 @@ body {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
-            flex-grow: 0.2; }
+            flex-grow: 0.2;
+          margin: auto 0;}
   .injury-item .current .symptom-list{
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
-            flex-grow: 0.3; }
+            flex-grow: 0.3; 
+          margin: auto 0;}
   .injury-item .current .treatment {
     -webkit-box-flex: 1;
     -webkit-flex-grow: 1;
         -ms-flex-positive: 1;
-            flex-grow: 0.2; }
-  .injury-item .current .sunset:before {
-    content: "Sunset: ";
-    color: #888; }
-  .injury-item .current .wind:before {
-    content: "Wind: ";
-    color: #888; }
-  .injury-item .current .sunrise:before {
-    content: "Sunrise: ";
-    color: #888; }
-  .injury-item .current .humidity:before {
-    content: "Humidity: ";
-    color: #888; }
-  .injury-item .current .pollen:before {
-    content: "Pollen Count: ";
-    color: #888; }
-  .injury-item .current .pcount:before {
-    content: "Pollen ";
-    color: #888; }
+            flex-grow: 0.2;
+          margin: auto 0;}
 
 .injury-item .symptom-list span {
   font-size: 1.2em;
@@ -404,26 +404,6 @@ body {
   background-size: contain; }
   .injury-item .icon.contractura {
     background-image: url("/images/contractura.jpg"); }
-  .injury-item .icon.clear-night {
-    background-image: url("/images/clear.png"); }
-  .injury-item .icon.rain {
-    background-image: url("/images/rain.png"); }
-  .injury-item .icon.snow {
-    background-image: url("/images/snow.png"); }
-  .injury-item .icon.sleet {
-    background-image: url("/images/sleet.png"); }
-  .injury-item .icon.windy {
-    background-image: url("/images/wind.png"); }
-  .injury-item .icon.fog {
-    background-image: url("/images/fog.png"); }
-  .injury-item .icon.cloudy {
-    background-image: url("/images/cloudy.png"); }
-  .injury-item .icon.partly-cloudy-day {
-    background-image: url("/images/partly-cloudy.png"); }
-  .injury-item .icon.partly-cloudy-night {
-    background-image: url("/images/partly-cloudy.png"); }
-  .injury-item .icon.thunderstorms {
-    background-image: url("/images/thunderstorm.png"); }
 
 @media (max-width: 450px) {
   .injury-item .date, .injury-item .description {
@@ -435,52 +415,5 @@ body {
     font-size: 3em; }
   .injury-item .future .oneday .icon {
     width: 32px;
-    height: 32px; } }
-
-.mdl-button {
-  background: transparent;
-  border: none;
-  border-radius: 2px;
-  color: black;
-  position: relative;
-  height: 36px;
-  margin: 0;
-  min-width: 64px;
-  padding: 0 16px;
-  display: inline-block;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  text-transform: uppercase;
-  line-height: 1;
-  letter-spacing: 0;
-  overflow: hidden;
-  will-change: box-shadow;
-  -webkit-transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  line-height: 36px;
-  vertical-align: middle; }
-  .mdl-button::-moz-focus-inner {
-    border: 0; }
-  .mdl-button:hover {
-    background-color: rgba(158, 158, 158, 0.2); }
-  .mdl-button:focus:not(:active) {
-    background-color: rgba(0, 0, 0, 0.12); }
-  .mdl-button:active {
-    background-color: rgba(158, 158, 158, 0.4); }
-  .mdl-button.mdl-button--colored {
-    color: #3f51b5; }
-    .mdl-button.mdl-button--colored:focus:not(:active) {
-      background-color: rgba(0, 0, 0, 0.12); }
-
-.mdl-button--primary.mdl-button--primary {
-  color: #3f51b5; }
-  .mdl-button--primary.mdl-button--primary .mdl-ripple {
-    background: white; }
-  .mdl-button--primary.mdl-button--primary.mdl-button--raised, .mdl-button--primary.mdl-button--primary.mdl-button--fab {
-    color: white;
-    background-color: #3f51b5; }
+    height: 32px; } 
+}

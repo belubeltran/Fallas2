@@ -19,6 +19,7 @@
   var app = {
     isLoading: true,
     visibleCards: {},
+    visibleSymptoms: {},
     selectedInjuries: [],
     acceptedSymptoms: [],
     deniedSymptoms: [],
@@ -85,38 +86,23 @@
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
   app.updateInjuryCard = function(data) {
-    var dataLastUpdated = new Date(data.created);
-    var symptoms = data.channel.symptoms;
-    var treatment = data.channel.treatment;
+    var symptoms = data.symptoms;
+    var treatment = data.treatment;
 
     var card = app.visibleCards[data.key];
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.title').textContent = data.label;
+      card.querySelector('.title').textContent = data.name;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
       app.visibleCards[data.key] = card;
     }
 
-    // Verifies the data provide is newer than what's already visible
-    // on the card, if it's not bail, if it is, continue and update the
-    // time saved in the card
-    var cardLastUpdatedElem = card.querySelector('.card-last-updated');
-    var cardLastUpdated = cardLastUpdatedElem.textContent;
-    if (cardLastUpdated) {
-      cardLastUpdated = new Date(cardLastUpdated);
-      // Bail if the card has more recent data then the data
-      if (dataLastUpdated.getTime() < cardLastUpdated.getTime()) {
-        return;
-      }
-    }
-    cardLastUpdatedElem.textContent = data.created;
-
-    card.querySelector('.symptoms').innerHTML = symptoms
-      .map(function(symptom) { return "<li><img src='/images/check.png' alt=''/>" + symptom + "</li>"; } ).join(' ');
+    card.querySelector('.current .symptoms').innerHTML = symptoms
+      .map(function(symptom) { return "<li><img src='/images/check.png' alt=''/>" + symptom.description + "</li>"; } ).join(' ');
     card.querySelector('.treatment .description').textContent = treatment;
-    card.querySelector('.visual .icon').classList.add(data.key);
+    card.querySelector('.visual .icon').classList.add(data.name.toLowerCase());
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -127,20 +113,20 @@
   // Updates a weather card with the latest weather forecast. If the card
   // doesn't already exist, it's cloned from the template.
   app.updateSymptomCard = function(data) {
-    var dataLastUpdated = new Date(data.created);
     var symptom = data.description;
 
-    var card = app.visibleCards[data.id];
+    var card = app.visibleSymptoms[data.id];
     if (!card) {
       card = app.symptomTemplate.cloneNode(true);
       card.classList.remove('symptomTemplate');
       card.removeAttribute('hidden');
       app.container.appendChild(card);
-      app.visibleCards[data.key] = card;
+      app.visibleSymptoms[data.key] = card;
     }
     
     card.querySelector('.symptom .description').textContent = symptom + ' ?';
-    card.querySelector('.visual .icon').classList.add(data.id);
+    var image = symptom.toLowerCase().replace(' ', '_');
+    card.querySelector('.visual .icon').classList.add(image);
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -174,34 +160,32 @@
       caches.match(url).then(function(response) {
         if (response) {
           response.json().then(function updateFromCache(json) {
-            var results = json.query.results;
-            results.key = key;
-            results.label = label;
-            results.created = json.query.created;
-            app.updateInjuryCard(results);
+            var results = json.filter(function(obj) { return obj.name == label });
+            console.log('beluu cache');
+            app.updateInjuryCard(results[0]);
           });
         }
       });
     }
-    // Fetch the latest data.
-    var request = new XMLHttpRequest();
-    request.onreadystatechange = function() {
-      if (request.readyState === XMLHttpRequest.DONE) {
-        if (request.status === 200) {
-          var response = JSON.parse(request.response);
-          var results = response.query.results;
-          results.key = key;
-          results.label = label;
-          results.created = response.query.created;
-          app.updateInjuryCard(results);
+    else {
+      // Fetch the latest data.
+      var request = new XMLHttpRequest();
+      request.onreadystatechange = function() {
+        if (request.readyState === XMLHttpRequest.DONE) {
+          if (request.status === 200) {
+            var response = JSON.parse(request.response);
+            var results = response.filter(function(obj) { return obj.name == label });
+            console.log('belu NO cache', results[0]);
+            app.updateInjuryCard(results[0]);
+          }
+        } else {
+          // Return the initial weather forecast since no data is available.
+          app.updateInjuryCard(initialInjury);
         }
-      } else {
-        // Return the initial weather forecast since no data is available.
-        app.updateInjuryCard(initialInjury);
-      }
-    };
-    request.open('GET', url, true);
-    request.send();
+      };
+      request.open('GET', url, true);
+      request.send();
+    }
   };
 
 
@@ -257,12 +241,9 @@
    */
   var initialInjury = {
     key: 'contractura',
-    label: 'Contractura',
-    created: '2016-07-22T01:00:00Z',
-    channel: {
-      symptoms: ["Síntomas Progresivos", "Inflamación", "Mucho endurecimiento muscular"],
-      treatment: "Debe aplicar calor, hacer reposo deportivo y elongar suave sin dolor."
-    }
+    label: 'Contractura lalala',
+    symptoms: ["Síntomas Progresivos", "Inflamación", "Mucho endurecimiento muscular"],
+    treatment: "Debe aplicar calor, hacer reposo deportivo y elongar suave sin dolor."
   };
 
   var initialSymptom = {
@@ -271,7 +252,7 @@
   }
   // TODO uncomment line below to test app with fake data
   // app.updateInjuryCard(initialInjury);
-   app.updateSymptomCard(initialSymptom);
+  // app.updateSymptomCard(initialSymptom);
 
   /************************************************************************
    *
