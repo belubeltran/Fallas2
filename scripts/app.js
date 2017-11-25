@@ -134,7 +134,7 @@
     card.querySelector('.current .symptoms').innerHTML = symptoms
       .map(function(symptom) { return "<li><img src='/images/check.png' alt=''/>" + symptom.description + "</li>"; } ).join(' ');
     card.querySelector('.treatment .description').textContent = treatment;
-    card.querySelector('.visual .icon').classList.add(name.toLowerCase());
+    card.querySelector('.visual .icon').classList.add(name.toLowerCase().replace(' ', '_'));
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
