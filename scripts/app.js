@@ -50,7 +50,7 @@
   });
 
   document.getElementById('butAddInjury').addEventListener('click', function() {
-    // Add the newly selected city
+    // Add the newly selected injury
     var select = document.getElementById('selectInjuryToAdd');
     var selected = select.options[select.selectedIndex];
     var key = selected.value;
@@ -205,35 +205,35 @@
        * data while the app fetches the latest data.
        */
       caches.match(url).then(function(response) {
+        console.log('beluu response cache', response);
         if (response) {
-          console.log('beluu response', response);
           response.json().then(function updateFromCache(json) {
-            console.log('beluu json', json);
+            console.log('beluu json cache', json);
             var results = json.filter(function(obj) { return obj.name == label });
             app.updateInjuryCard(results[0]);
           });
+          return;
         }
       });
     }
-    else {
-      // Fetch the latest data.
-      var request = new XMLHttpRequest();
-      request.onreadystatechange = function() {
-        if (request.readyState === XMLHttpRequest.DONE) {
-          if (request.status === 200) {
-            var response = JSON.parse(request.response);
-            var results = response.filter(function(obj) { return obj.name == label });
-            console.log('belu NO cache', results[0]);
-            app.updateInjuryCard(results[0]);
-          }
-        } else {
-          // Return the initial weather forecast since no data is available.
-          app.updateInjuryCard(initialInjury);
+    // Fetch the latest data.
+    var request = new XMLHttpRequest();
+    console.log('belu sin cache');
+    request.onreadystatechange = function() {
+      if (request.readyState === XMLHttpRequest.DONE) {
+        if (request.status === 200) {
+          var response = JSON.parse(request.response);
+          var results = response.filter(function(obj) { return obj.name == label });
+          console.log('belu NO cache', results[0]);
+          app.updateInjuryCard(results[0]);
         }
-      };
-      request.open('GET', url, true);
-      request.send();
-    }
+      } else {
+        // Return the initial weather forecast since no data is available.
+        app.updateInjuryCard(initialInjury);
+      }
+    };
+    request.open('GET', url, true);
+    request.send();
   };
 
 
@@ -328,7 +328,7 @@
      */
     app.updateInjuryCard(initialInjury);
     app.selectedInjuries = [
-      {key: initialInjury.key, label: initialInjury.label}
+      {key: initialInjury.id, label: initialInjury.name}
     ];
     app.saveselectedInjuries();
   }
