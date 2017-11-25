@@ -125,7 +125,7 @@
     if (!card) {
       card = app.cardTemplate.cloneNode(true);
       card.classList.remove('cardTemplate');
-      card.querySelector('.title').textContent = data.name;
+      card.querySelector('.title').textContent = name;
       card.removeAttribute('hidden');
       app.container.appendChild(card);
       app.visibleCards[data.key] = card;
@@ -134,7 +134,7 @@
     card.querySelector('.current .symptoms').innerHTML = symptoms
       .map(function(symptom) { return "<li><img src='/images/check.png' alt=''/>" + symptom.description + "</li>"; } ).join(' ');
     card.querySelector('.treatment .description').textContent = treatment;
-    card.querySelector('.visual .icon').classList.add(data.name.toLowerCase());
+    card.querySelector('.visual .icon').classList.add(name.toLowerCase());
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
