@@ -120,6 +120,7 @@
     var symptoms = data.symptoms;
     var treatment = data.treatment;
     var name = data.name;
+    var iconName = name.toLowerCase().replace(" ", "_");
 
     var card = app.visibleCards[data.key];
     if (!card) {
@@ -134,7 +135,7 @@
     card.querySelector('.current .symptoms').innerHTML = symptoms
       .map(function(symptom) { return "<li><img src='/images/check.png' alt=''/>" + symptom.description + "</li>"; } ).join(' ');
     card.querySelector('.treatment .description').textContent = treatment;
-    card.querySelector('.visual .icon').classList.add(name.toLowerCase().replace(' ', '_'));
+    card.querySelector('.visual .icon').classList.add(iconName);
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
