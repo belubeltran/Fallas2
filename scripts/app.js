@@ -119,6 +119,7 @@
   app.updateInjuryCard = function(data) {
     var symptoms = data.symptoms;
     var treatment = data.treatment;
+    var name = data.name;
 
     var card = app.visibleCards[data.key];
     if (!card) {
@@ -286,8 +287,8 @@
    * discussion.
    */
   var initialInjury = {
-    key: 'contractura',
-    label: 'Contractura lalala',
+    id: 'contractura',
+    name: 'Contractura lalala',
     symptoms: ["Síntomas Progresivos", "Inflamación", "Mucho endurecimiento muscular"],
     treatment: "Debe aplicar calor, hacer reposo deportivo y elongar suave sin dolor."
   };
