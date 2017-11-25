@@ -205,10 +205,8 @@
        * data while the app fetches the latest data.
        */
       caches.match(url).then(function(response) {
-        console.log('beluu response cache', response);
         if (response) {
           response.json().then(function updateFromCache(json) {
-            console.log('beluu json cache', json);
             var results = json.filter(function(obj) { return obj.name == label });
             app.updateInjuryCard(results[0]);
           });
@@ -218,13 +216,11 @@
     }
     // Fetch the latest data.
     var request = new XMLHttpRequest();
-    console.log('belu sin cache');
     request.onreadystatechange = function() {
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response.filter(function(obj) { return obj.name == label });
-          console.log('belu NO cache', results[0]);
           app.updateInjuryCard(results[0]);
         }
       } else {
@@ -254,14 +250,12 @@
     var params = {acceptedSymptoms: app.acceptedSymptoms, 
       deniedSymptoms: app.deniedSymptoms
     };
-    console.log('belu params', JSON.stringify(params));
 
     request.onreadystatechange = function() {
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
           var results = response;
-          console.log('belu symptoms', results);
           app.updateSymptomCard(results);
         } else {
           // Return the initial weather forecast since no data is available.
