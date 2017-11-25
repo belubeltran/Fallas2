@@ -204,9 +204,10 @@
        */
       caches.match(url).then(function(response) {
         if (response) {
+          console.log('beluu response', response);
           response.json().then(function updateFromCache(json) {
+            console.log('beluu json', json);
             var results = json.filter(function(obj) { return obj.name == label });
-            console.log('beluu cache');
             app.updateInjuryCard(results[0]);
           });
         }

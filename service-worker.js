@@ -13,14 +13,26 @@
 // limitations under the License.
 
 var dataCacheName = 'diagnose-v1';
-var cacheName = 'diagnosePWA-step-final';
+var cacheName = 'diagnosePWA';
 var filesToCache = [
   '/',
   '/index.html',
   '/scripts/app.js',
   '/styles/inline.css',
   '/images/check.png',
-  '/images/contractura.jpg'
+  '/images/close.jpg',
+  '/images/contractura.jpg',
+  '/images/endurecimiento_medio_en_el_musculo.jpg',
+  '/images/golpe.jpg',
+  '/images/hematoma_de_mucha_intensidad.jpg',
+  '/images/hematoma_de_poca_intensidad.jpg',
+  '/images/imposibilidad_de_terminar_actividad_fisica.jpg',
+  '/images/inflamacion.jpg',
+  '/images/mucho_endurecimiento_muscular.jpg',
+  '/images/poco_endurecimiento_muscular.jpg',
+  '/images/sensacion_electrica.jpg',
+  '/images/sintomas_agudos.jpg',
+  '/images/sintomas_progresivos.jpg'
 ];
 
 self.addEventListener('install', function(e) {
@@ -73,6 +85,7 @@ self.addEventListener('fetch', function(e) {
       caches.open(dataCacheName).then(function(cache) {
         return fetch(e.request).then(function(response){
           cache.put(e.request.url, response.clone());
+          console.log('Cached url and data', e.request.url, response);
           return response;
         });
       })
