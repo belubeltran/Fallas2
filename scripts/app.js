@@ -120,7 +120,7 @@
     var symptoms = data.symptoms;
     var treatment = data.treatment;
     var name = data.name;
-    var iconName = name.toLowerCase().replace(" ", "_");
+    var iconName = name.toLowerCase().replace(/ /g, "_");
 
     var card = app.visibleCards[data.key];
     if (!card) {
