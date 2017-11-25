@@ -289,8 +289,8 @@
    */
   var initialInjury = {
     id: 'contractura',
-    name: 'Contractura lalala',
-    symptoms: ["Síntomas Progresivos", "Inflamación", "Mucho endurecimiento muscular"],
+    name: 'Contractura',
+    symptoms: [{"id":1,"description":"Mucho endurecimiento muscular"},{"id":3,"description":"Inflamacion"},{"id":2,"description":"Sintomas progresivos"}],
     treatment: "Debe aplicar calor, hacer reposo deportivo y elongar suave sin dolor."
   };
 
