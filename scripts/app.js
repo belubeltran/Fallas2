@@ -161,7 +161,7 @@
     }
     
     card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
-    var image = nextSymptom.description .toLowerCase().replace(' ', '_');
+    var image = nextSymptom.description .toLowerCase().replace(/ /g, '_');
     card.querySelector('.visual .icon').classList.add(image);
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
@@ -250,11 +250,13 @@
     var params = {acceptedSymptoms: app.acceptedSymptoms, 
       deniedSymptoms: app.deniedSymptoms
     };
+    console.log('belu params', params);
 
     request.onreadystatechange = function() {
       if (request.readyState === XMLHttpRequest.DONE) {
         if (request.status === 200) {
           var response = JSON.parse(request.response);
+          console.log('belu response symptom', response);
           var results = response;
           app.updateSymptomCard(results);
         } else {
