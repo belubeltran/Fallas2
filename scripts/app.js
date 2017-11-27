@@ -91,6 +91,13 @@
     app.getNextSymptom();
   };
 
+  app.clearSymptom = function() {
+    var card = app.visibleSymptoms;
+    if (card) {
+      card.querySelector('.symptoms').innerHTML = "";
+    }
+  };
+
   /*****************************************************************************
    *
    * Methods to update/refresh the UI
@@ -101,6 +108,8 @@
     // Restart diagnose
     app.acceptedSymptoms = [];
     app.deniedSymptoms = [];
+
+    app.clearSymptom();
 
     app.getNextSymptom();
   };
@@ -162,16 +171,21 @@
     
     //If it found a symptom
     if (app.diagnoseFound) {
-      card.querySelector('.title').addAttribute('hidden');
-      card.querySelector('.injury').textContent = 'Tenés ' + data.dianose;
-      card.querySelector('.symptom').addAttribute('hidden');
-      var image = data.dianose.toLowerCase().replace(/ /g, '_');
+      card.querySelector('.title').textContent = 'Tenés ' + data.diagnose.name;
+      card.querySelector('.symptom').setAttribute('hidden', true);
+      var image = data.diagnose.name.toLowerCase().replace(/ /g, '_');
+      var className = card.querySelector('.visual .icon').classList.item(1);
+      card.querySelector('.visual .icon').classList.remove(className);
       card.querySelector('.visual .icon').classList.add(image);
-      card.querySelector('.actions').addAttribute('hidden');
+      card.querySelector('.action').setAttribute('hidden', true);
+      card.querySelector('.treatment').removeAttribute('hidden');
+      card.querySelector('.treatment').textContent = data.diagnose.treatment;
     }
     else {
       card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
       var image = nextSymptom.description.toLowerCase().replace(/ /g, '_');
+      var className = card.querySelector('.visual .icon').classList.item(1);
+      card.querySelector('.visual .icon').classList.remove(className);
       card.querySelector('.visual .icon').classList.add(image);
     }
 

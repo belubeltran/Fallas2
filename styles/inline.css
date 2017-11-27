@@ -257,6 +257,10 @@ body {
 .injury-item .title, .symptom-item .title {
   font-size: 1.75em; }
 
+.symptom-item .treatment {
+    font-size: 1.25em;
+}
+
 .symptom-item .button {
   width: 50px;
   height: 30px;
@@ -333,12 +337,14 @@ body {
     background-image: url("/images/inflamacion.jpg"); }
   .symptom-item .icon.endurecimiento_medio_en_el_musculo {
     background-image: url("/images/endurecimiento_medio_en_el_musculo.jpg"); }
-  .symptom-item .icon.golpe {
-    background-image: url("/images/golpe.jpg"); }
+  .symptom-item .icon.causado_por_un_golpe {
+    background-image: url("/images/causado_por_un_golpe.jpg"); }
   .symptom-item .icon.hematomas_de_mucha_intensidad {
     background-image: url("/images/hematomas_de_mucha_intensidad.jpg"); }
   .symptom-item .icon.hematomas_de_poca_intensidad {
     background-image: url("/images/hematomas_de_poca_intensidad.jpg"); }
+  .symptom-item .icon.hematomas_de_intensidad_media {
+    background-image: url("/images/hematomas_de_intensidad_media.jpg"); }
   .symptom-item .icon.imposibilidad_de_terminar_actividad_fisica {
     background-image: url("/images/imposibilidad_de_terminar_actividad_fisica.jpg"); }
   .symptom-item .icon.mucho_endurecimiento_muscular {
@@ -347,8 +353,20 @@ body {
     background-image: url("/images/poco_endurecimiento_muscular.jpg"); }
   .symptom-item .icon.sensacion_electrica {
     background-image: url("/images/sensacion_electrica.jpg"); }
+  .symptom-item .icon.no_presenta_sensacion_electrica {
+    background-image: url("/images/no_presenta_sensacion_electrica.jpg"); }
   .symptom-item .icon.sintomas_progresivos {
     background-image: url("/images/sintomas_progresivos.jpg"); }
+  .symptom-item .icon.contractura {
+    background-image: url("/images/contractura.jpg"); }
+  .symptom-item .icon.calambre {
+    background-image: url("/images/calambre.jpg"); }
+  .symptom-item .icon.contusion {
+    background-image: url("/images/contusion.jpg"); }
+  .symptom-item .icon.desgarro {
+    background-image: url("/images/desgarro.jpg"); }
+  .symptom-item .icon.distension {
+    background-image: url("/images/distension.jpg"); }
 
 .injury-item .date, .injury-item .description {
   font-size: 1.25em; }
