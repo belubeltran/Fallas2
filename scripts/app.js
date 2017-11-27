@@ -181,6 +181,15 @@
       card.querySelector('.treatment').removeAttribute('hidden');
       card.querySelector('.treatment').textContent = data.diagnose.treatment;
     }
+    else if (!nextSymptom) {
+      card.querySelector('.title').textContent = 'No se encontró diagnóstico';
+      card.querySelector('.symptom').setAttribute('hidden', true);
+      var image = 'no_encontrado';
+      var className = card.querySelector('.visual .icon').classList.item(1);
+      card.querySelector('.visual .icon').classList.remove(className);
+      card.querySelector('.visual .icon').classList.add(image);
+      card.querySelector('.action').setAttribute('hidden', true);
+    }
     else {
       card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
       var image = nextSymptom.description.toLowerCase().replace(/ /g, '_');

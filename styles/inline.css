@@ -331,6 +331,8 @@ body {
 .symptom-item .icon {
   background-repeat: no-repeat;
   background-size: contain; }
+  .symptom-item .icon.no_encontrado {
+    background-image: url("/images/no_encontrado.jpg"); }
   .symptom-item .icon.sintomas_agudos {
     background-image: url("/images/sintomas_agudos.jpg"); }
   .symptom-item .icon.inflamacion {

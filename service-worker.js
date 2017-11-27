@@ -21,6 +21,7 @@ var filesToCache = [
   '/styles/inline.css',
   '/images/check.png',
   '/images/close.png',
+  '/images/no_encontrado.jpg',
   '/images/contractura.jpg',
   '/images/calambre.jpg',
   '/images/contusion.jpg',
