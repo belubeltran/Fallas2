@@ -160,9 +160,21 @@
       app.visibleSymptoms = card;
     }
     
-    card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
-    var image = nextSymptom.description .toLowerCase().replace(/ /g, '_');
-    card.querySelector('.visual .icon').classList.add(image);
+    //If it found a symptom
+    if (app.diagnoseFound) {
+      card.querySelector('.title').addAttribute('hidden');
+      card.querySelector('.injury').textContent = 'Tenés ' + data.dianose;
+      card.querySelector('.symptom').addAttribute('hidden');
+      var image = data.dianose.toLowerCase().replace(/ /g, '_');
+      card.querySelector('.visual .icon').classList.add(image);
+      card.querySelector('.actions').addAttribute('hidden');
+    }
+    else {
+      card.querySelector('.symptom .description').textContent = nextSymptom.description + ' ?';
+      var image = nextSymptom.description.toLowerCase().replace(/ /g, '_');
+      card.querySelector('.visual .icon').classList.add(image);
+    }
+
     if (app.isLoading) {
       app.spinner.setAttribute('hidden', true);
       app.container.removeAttribute('hidden');
@@ -242,7 +254,7 @@
    * freshest data.
    */
   app.getNextSymptom = function() {
-    var url = 'https://muscleinjurydiagnoser.herokuapp.com/diagnose/nook';
+    var url = 'https://muscleinjurydiagnoser.herokuapp.com/diagnose/now';
     // TODO add cache logic here
 
     // Fetch the latest data.
